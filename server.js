@@ -2,6 +2,10 @@ const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
+const bodyParser = require('body-parser');
+const morgan = require("morgan");
+const session = require('express-session');
+
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -12,7 +16,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Define API routes here
-
+app.use("/users", require('./server/routes/API/signIn'))
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {

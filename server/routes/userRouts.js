@@ -30,9 +30,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.post(
-    '/login',
-    function (req, res, next) {
+router.post('/login', function (req, res, next) {
         console.log('routes/user.js, login, req.body: ');
         console.log(req.body)
         next()

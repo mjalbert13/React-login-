@@ -57,6 +57,7 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/login" render={() => <Loggin updateUser={this.updateUser}/>}/>
         <Route path="/signup" render ={() => <Signup/>}/>
+        <h1>Welcome</h1>
       </div>
     );
   }

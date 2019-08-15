@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const uri = 'mongodb://localhost/loginapp';
+const uri = 'mongodb://localhost/reactlogin';
 
 mongoose.connect(uri).then(
     () =>{

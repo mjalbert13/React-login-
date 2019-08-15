@@ -22,14 +22,27 @@ const UserSchema = new Schema({
     }
 });
 
-UserSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+UserSchema.methods ={
+    checkPassword: function(inputPassword){
+        return bcrypt.compareSync(inputPassword, this.password)
+    },
+    hashPassword: function(plainTextPassword) {
+        return bcrypt.hashSync(plainTextPassword, 10)
+    }
 }
 
-UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
-}
+UserSchema.pre('save', function(next){
+    if(!this.password){
+        console.log('=====No Password provided=======')
+        next();
+    } else {
+        console.log('models/user.js hashPassword in pre save')
 
-const User = mongoose.model('user', UserSchema);
+        this.password = this.hashPassword(this.password)
+        next()
+    }
+})
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

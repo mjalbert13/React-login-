@@ -5,18 +5,33 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require("morgan");
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session)
+const passport =require('passport')
+const user = require('./server/routes/userRouts')
 
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan('dev'))
+
+app.use(session({
+  secret: login,
+  store: MongoStore({}),
+  resave: false,
+  saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session())
+
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
 // Define API routes here
-app.use("/users", require('./server/routes/API/signIn'))
+app.use("/users", user)
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
